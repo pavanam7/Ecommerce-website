@@ -1,0 +1,165 @@
+<div class="checkout-container">
+  <div class="checkout-header">
+    <h1>Checkout</h1>
+  </div>
+
+  <div class="loading-overlay" *ngIf="loading">
+    <div class="spinner"></div>
+    <p>Processing your request...</p>
+  </div>
+
+  <div class="alert alert-error" *ngIf="error" role="alert" aria-live="polite">
+    {{ error }}
+  </div>
+
+  <div class="alert alert-success" *ngIf="successMessage" role="alert" aria-live="polite">
+    {{ successMessage }}
+  </div>
+
+  <div class="checkout-content" [class.disabled]="loading">
+    <div class="cart-summary">
+      <h2>Order Summary</h2>
+      <div class="cart-items">
+        <div class="cart-item" *ngFor="let item of cartItems">
+          <img [src]="item.product.imageUrl" [alt]="item.product.name" class="item-image">
+          <div class="item-details">
+            <h3>{{ item.product.name }}</h3>
+            <p>Quantity: {{ item.quantity }}</p>
+            <p class="price">{{ item.product.price * item.quantity | currency }}</p>
+          </div>
+        </div>
+      </div>
+      <div class="cart-total">
+        <h3>Total</h3>
+        <p class="total-amount">{{ totalAmount | currency }}</p>
+      </div>
+    </div>
+
+    <form [formGroup]="checkoutForm" (ngSubmit)="onSubmit()" class="checkout-form">
+      <h2>Billing Information</h2>
+      
+      <div class="form-group">
+        <label for="name">Full Name</label>
+        <input 
+          type="text" 
+          id="name" 
+          formControlName="name"
+          [class.error]="formControls['name'].touched && formControls['name'].invalid"
+          aria-describedby="name-error">
+        <div id="name-error" class="error-message" *ngIf="formControls['name'].touched && formControls['name'].invalid">
+          <span *ngIf="formControls['name'].errors?.['required']">Name is required</span>
+          <span *ngIf="formControls['name'].errors?.['minlength']">Name must be at least 2 characters</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input 
+          type="email" 
+          id="email" 
+          formControlName="email"
+          [class.error]="formControls['email'].touched && formControls['email'].invalid"
+          aria-describedby="email-error">
+        <div id="email-error" class="error-message" *ngIf="formControls['email'].touched && formControls['email'].invalid">
+          <span *ngIf="formControls['email'].errors?.['required']">Email is required</span>
+          <span *ngIf="formControls['email'].errors?.['email']">Please enter a valid email</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="address">Street Address</label>
+        <input 
+          type="text" 
+          id="address" 
+          formControlName="address"
+          [class.error]="formControls['address'].touched && formControls['address'].invalid"
+          aria-describedby="address-error">
+        <div id="address-error" class="error-message" *ngIf="formControls['address'].touched && formControls['address'].invalid">
+          <span *ngIf="formControls['address'].errors?.['required']">Address is required</span>
+          <span *ngIf="formControls['address'].errors?.['minlength']">Address must be at least 5 characters</span>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="city">City</label>
+          <input 
+            type="text" 
+            id="city" 
+            formControlName="city"
+            [class.error]="formControls['city'].touched && formControls['city'].invalid"
+            aria-describedby="city-error">
+          <div id="city-error" class="error-message" *ngIf="formControls['city'].touched && formControls['city'].invalid">
+            <span *ngIf="formControls['city'].errors?.['required']">City is required</span>
+            <span *ngIf="formControls['city'].errors?.['minlength']">City must be at least 2 characters</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="state">State</label>
+          <input 
+            type="text" 
+            id="state" 
+            formControlName="state"
+            [class.error]="formControls['state'].touched && formControls['state'].invalid"
+            aria-describedby="state-error">
+          <div id="state-error" class="error-message" *ngIf="formControls['state'].touched && formControls['state'].invalid">
+            <span *ngIf="formControls['state'].errors?.['required']">State is required</span>
+            <span *ngIf="formControls['state'].errors?.['minlength']">State must be at least 2 characters</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="zip">ZIP Code</label>
+          <input 
+            type="text" 
+            id="zip" 
+            formControlName="zip"
+            [class.error]="formControls['zip'].touched && formControls['zip'].invalid"
+            aria-describedby="zip-error">
+          <div id="zip-error" class="error-message" *ngIf="formControls['zip'].touched && formControls['zip'].invalid">
+            <span *ngIf="formControls['zip'].errors?.['required']">ZIP code is required</span>
+            <span *ngIf="formControls['zip'].errors?.['pattern']">Please enter a valid ZIP code (e.g., 12345 or 12345-6789)</span>
+          </div>
+        </div>
+      </div>
+
+      <h2>Payment Information</h2>
+      
+      <div class="payment-methods" *ngIf="paymentMethods.length > 0">
+        <h3>Saved Payment Methods</h3>
+        <div class="payment-method" *ngFor="let method of paymentMethods">
+          <input 
+            type="radio" 
+            [id]="method.id" 
+            name="paymentMethod" 
+            [value]="method.id"
+            [(ngModel)]="selectedPaymentMethod"
+            [ngModelOptions]="{standalone: true}">
+          <label [for]="method.id">
+            {{ method.brand | titlecase }} ending in {{ method.last4 }}
+            <span class="expiry">Expires {{ method.exp_month }}/{{ method.exp_year }}</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="card-element-container">
+        <label for="card-element">Credit or debit card</label>
+        <div id="card-element" class="card-element"></div>
+        <div id="card-errors" class="error-message" role="alert" *ngIf="cardErrors">
+          {{ cardErrors }}
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button 
+          type="submit" 
+          class="submit-button" 
+          [disabled]="checkoutForm.invalid || loading || !card">
+          <span *ngIf="!loading">Pay {{ totalAmount | currency }}</span>
+          <span *ngIf="loading">Processing...</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,17 @@
+<div class="promotion-banner" *ngIf="currentPromotion">
+  <div class="promotion-content">
+    <h2>{{ currentPromotion.title }}</h2>
+    <p>{{ currentPromotion.description }}</p>
+    <div *ngIf="currentPromotion.discountPercentage" class="discount">
+      {{ currentPromotion.discountPercentage }}% OFF
+    </div>
+    <div *ngIf="currentPromotion.validUntil" class="valid-until">
+      Valid until: {{ currentPromotion.validUntil | date }}
+    </div>
+  </div>
+  
+  <div class="navigation">
+    <button (click)="previousPromotion()">‹</button>
+    <button (click)="nextPromotion()">›</button>
+  </div>
+</div>

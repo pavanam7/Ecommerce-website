@@ -1,0 +1,43 @@
+<form [formGroup]="reviewForm" (ngSubmit)="onSubmit()" class="review-form">
+  <div class="form-group">
+    <label for="rating">Rating</label>
+    <div class="rating-stars">
+      <button type="button" 
+              *ngFor="let star of [1,2,3,4,5]; let i = index"
+              (click)="reviewForm.patchValue({ rating: i + 1 })"
+              [class.active]="(i + 1) <= reviewForm.value.rating">
+        <i class="fas fa-star"></i>
+      </button>
+    </div>
+    <div *ngIf="rating?.invalid && (rating?.dirty || rating?.touched)"
+         class="error-message">
+      Please select a rating between 1 and 5
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="reviewText">Your Review</label>
+    <textarea id="reviewText" 
+              formControlName="text"
+              rows="5"
+              placeholder="Write your review here..."></textarea>
+    <div *ngIf="text?.invalid && (text?.dirty || text?.touched)"
+         class="error-message">
+      Review must be at least 10 characters
+    </div>
+  </div>
+
+  <div *ngIf="errorMessage" class="alert error">
+    {{ errorMessage }}
+  </div>
+
+  <div *ngIf="successMessage" class="alert success">
+    {{ successMessage }}
+  </div>
+
+  <button type="submit" 
+          class="submit-button"
+          [disabled]="reviewForm.invalid || isSubmitting">
+    {{ isSubmitting ? 'Submitting...' : 'Submit Review' }}
+  </button>
+</form>

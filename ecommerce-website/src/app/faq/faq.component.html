@@ -1,0 +1,52 @@
+<div class="faq-container">
+  <div class="faq-header">
+    <h1>Frequently Asked Questions</h1>
+    <div class="search-container">
+      <input
+        type="text"
+        [ngModel]="searchQuery"
+        (ngModelChange)="onSearch($event)"
+        placeholder="Search FAQs..."
+        class="search-input"
+      />
+    </div>
+  </div>
+
+  <div *ngIf="loading" class="loading-spinner">
+    <div class="spinner"></div>
+    <p>Loading FAQs...</p>
+  </div>
+
+  <div *ngIf="errorMessage" class="error-message">
+    {{ errorMessage }}
+  </div>
+
+  <div *ngIf="!loading && !errorMessage" class="faq-content">
+    <div *ngFor="let category of filteredCategories" class="faq-category">
+      <h2>{{ category.name }}</h2>
+      
+      <div *ngFor="let faq of category.faqs" class="faq-item">
+        <div
+          class="faq-question"
+          [class.expanded]="faq.isExpanded"
+          (click)="toggleFaq(faq)"
+        >
+          <span>{{ faq.question }}</span>
+          <i class="arrow" [class.down]="!faq.isExpanded" [class.up]="faq.isExpanded"></i>
+        </div>
+        
+        <div
+          class="faq-answer"
+          [class.expanded]="faq.isExpanded"
+          [@expandCollapse]="faq.isExpanded ? 'expanded' : 'collapsed'"
+        >
+          {{ faq.answer }}
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="filteredCategories.length === 0" class="no-results">
+      <p>No FAQs found matching your search.</p>
+    </div>
+  </div>
+</div>

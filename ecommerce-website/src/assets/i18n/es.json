@@ -1,0 +1,22 @@
+{
+  "HOME": {
+    "TITLE": "Bienvenido a Nuestra Tienda en Línea",
+    "SUBTITLE": "Explora nuestros productos y disfruta de tus compras!"
+  },
+  "PRODUCT": {
+    "LIST_TITLE": "Nuestros Productos",
+    "DETAILS_TITLE": "Detalles del Producto",
+    "ADD_TO_CART": "Añadir al Carrito",
+    "ADD_TO_WISHLIST": "Añadir a la Lista de Deseos"
+  },
+  "CART": {
+    "TITLE": "Tu Carrito de Compras",
+    "EMPTY": "Tu carrito está vacío",
+    "CHECKOUT": "Proceder al Pago"
+  },
+  "PROFILE": {
+    "TITLE": "Tu Perfil",
+    "EDIT": "Editar Perfil",
+    "SAVE": "Guardar Cambios"
+  }
+}

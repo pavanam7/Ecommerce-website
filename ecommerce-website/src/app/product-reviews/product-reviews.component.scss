@@ -1,0 +1,105 @@
+.product-reviews {
+  margin: 2rem 0;
+
+  h3, h4 {
+    margin-bottom: 1rem;
+  }
+
+  .no-reviews {
+    font-style: italic;
+    color: #666;
+    margin-bottom: 1rem;
+  }
+
+  .loading {
+    text-align: center;
+    margin: 1rem 0;
+  }
+
+  .error-message {
+    color: #dc3545;
+    margin: 1rem 0;
+  }
+
+  .reviews-list {
+    margin-bottom: 2rem;
+
+    .review {
+      border-bottom: 1px solid #eee;
+      padding: 1rem 0;
+
+      &:last-child {
+        border-bottom: none;
+      }
+
+      .rating {
+        color: #ffc107;
+        margin-bottom: 0.5rem;
+
+        .filled {
+          color: #ffc107;
+        }
+      }
+
+      .comment {
+        margin: 0.5rem 0;
+      }
+
+      .reviewer {
+        font-size: 0.9rem;
+        color: #666;
+        margin: 0;
+      }
+    }
+  }
+
+  .add-review {
+    background: #f8f9fa;
+    padding: 1rem;
+    border-radius: 4px;
+
+    .form-group {
+      margin-bottom: 1rem;
+
+      label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+      }
+
+      .rating-input {
+        span {
+          cursor: pointer;
+          margin-right: 0.25rem;
+          color: #ccc;
+
+          .filled {
+            color: #ffc107;
+          }
+        }
+      }
+
+      textarea {
+        width: 100%;
+        padding: 0.5rem;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 1rem;
+      }
+    }
+
+    button {
+      padding: 0.5rem 1rem;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+
+      &:disabled {
+        background-color: #ccc;
+        cursor: not-allowed;
+      }
+    }
+  }
+}

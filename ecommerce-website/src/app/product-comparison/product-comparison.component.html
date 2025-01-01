@@ -1,0 +1,27 @@
+<div class="product-comparison">
+  <h2>Product Comparison</h2>
+  
+  <div class="product-list">
+    <div *ngFor="let product of products" class="product-card" (click)="toggleProductSelection(product)" [class.selected]="isSelected(product)">
+      <h3>{{ product.name }}</h3>
+      <p>{{ product.price | currency }}</p>
+    </div>
+  </div>
+
+  <div class="comparison-table" *ngIf="selectedProducts.length > 1">
+    <table>
+      <thead>
+        <tr>
+          <th>Attribute</th>
+          <th *ngFor="let product of selectedProducts">{{ product.name }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let attr of comparisonAttributes">
+          <td>{{ attr }}</td>
+          <td *ngFor="let product of selectedProducts">{{ product[attr.name] }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -1,0 +1,103 @@
+<div class="login-container">
+  <div class="login-header">
+    <h2>Welcome Back</h2>
+    <p>Sign in to continue shopping</p>
+  </div>
+
+  <!-- Social Login Buttons -->
+  <div class="social-login">
+    <button type="button" class="social-btn google" (click)="socialLogin('google')" [disabled]="isLoading">
+      <i class="fab fa-google"></i>
+      Continue with Google
+    </button>
+    <button type="button" class="social-btn facebook" (click)="socialLogin('facebook')" [disabled]="isLoading">
+      <i class="fab fa-facebook-f"></i>
+      Continue with Facebook
+    </button>
+    <button type="button" class="social-btn twitter" (click)="socialLogin('twitter')" [disabled]="isLoading">
+      <i class="fab fa-twitter"></i>
+      Continue with Twitter
+    </button>
+  </div>
+
+  <div class="divider">
+    <span>or</span>
+  </div>
+
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
+    <!-- Email Field -->
+    <div class="form-group">
+      <label for="email">Email Address</label>
+      <input 
+        type="email" 
+        id="email" 
+        formControlName="email" 
+        [class.invalid]="loginForm.get('email')?.invalid && loginForm.get('email')?.touched"
+        placeholder="Enter your email"
+      >
+      <div class="validation-feedback" *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
+        <span *ngIf="loginForm.get('email')?.errors?.['required']">Email is required</span>
+        <span *ngIf="loginForm.get('email')?.errors?.['email']">Please enter a valid email address</span>
+      </div>
+    </div>
+
+    <!-- Password Field -->
+    <div class="form-group">
+      <label for="password">Password</label>
+      <div class="password-input">
+        <input 
+          [type]="showPassword ? 'text' : 'password'" 
+          id="password" 
+          formControlName="password"
+          [class.invalid]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched"
+          placeholder="Enter your password"
+        >
+        <button 
+          type="button" 
+          class="toggle-password" 
+          (click)="togglePasswordVisibility()"
+          [attr.aria-label]="showPassword ? 'Hide password' : 'Show password'"
+        >
+          <i [class]="showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+        </button>
+      </div>
+      <div class="validation-feedback" *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
+        <span *ngIf="loginForm.get('password')?.errors?.['required']">Password is required</span>
+        <span *ngIf="loginForm.get('password')?.errors?.['minlength']">Password must be at least 8 characters</span>
+      </div>
+    </div>
+
+    <!-- Remember Me & Forgot Password -->
+    <div class="form-options">
+      <div class="remember-me">
+        <input type="checkbox" id="rememberMe" formControlName="rememberMe">
+        <label for="rememberMe">Remember me</label>
+      </div>
+      <button type="button" class="forgot-password" (click)="requestPasswordReset()">
+        Forgot Password?
+      </button>
+    </div>
+
+    <!-- Error Message -->
+    <div *ngIf="errorMessage" class="error-message" role="alert">
+      {{ errorMessage }}
+    </div>
+
+    <!-- Submit Button -->
+    <button 
+      type="submit" 
+      class="submit-btn" 
+      [disabled]="loginForm.invalid || isLoading"
+      [class.loading]="isLoading"
+    >
+      <span *ngIf="!isLoading">Sign In</span>
+      <div *ngIf="isLoading" class="spinner"></div>
+    </button>
+  </form>
+
+  <!-- Registration Link -->
+  <div class="register-link">
+    <span>Don't have an account?</span>
+    <a routerLink="/register">Create Account</a>
+  </div>
+</div>

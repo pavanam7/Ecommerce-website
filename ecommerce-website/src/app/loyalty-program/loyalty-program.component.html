@@ -1,0 +1,75 @@
+<div class="loyalty-program">
+  <div class="points-summary">
+    <h2>Your Loyalty Points</h2>
+    <div class="points-display">
+      <div class="points-card">
+        <span class="points-label">Total Points</span>
+        <span class="points-value">{{ points?.totalPoints || 0 }}</span>
+      </div>
+      <div class="points-card">
+        <span class="points-label">Available Points</span>
+        <span class="points-value">{{ points?.availablePoints || 0 }}</span>
+      </div>
+      <div class="points-card">
+        <span class="points-label">Used Points</span>
+        <span class="points-value">{{ points?.usedPoints || 0 }}</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="rewards-section">
+    <h2>Available Rewards</h2>
+    <div class="rewards-grid">
+      <div *ngFor="let reward of rewards" class="reward-card">
+        <img [src]="reward.imageUrl || 'assets/default-reward.png'" alt="{{reward.name}}">
+        <div class="reward-info">
+          <h3>{{reward.name}}</h3>
+          <p>{{reward.description}}</p>
+          <div class="reward-points">
+            <span>{{reward.pointsRequired}} points</span>
+            <button (click)="redeemReward(reward.id)" 
+                    [disabled]="!canRedeem(reward.pointsRequired)">
+              Redeem
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tiers-section">
+    <h2>Loyalty Tiers</h2>
+    <div class="tiers-progress">
+      <div *ngFor="let tier of tiers" class="tier">
+        <div class="tier-name">{{tier.name}}</div>
+        <div class="tier-requirements">{{tier.pointsRequired}} points</div>
+        <ul class="tier-benefits">
+          <li *ngFor="let benefit of tier.benefits">{{benefit}}</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="history-section">
+    <h2>Points History</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Activity</th>
+          <th>Points</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let entry of history">
+          <td>{{entry.date | date}}</td>
+          <td>{{entry.description}}</td>
+          <td [class.positive]="entry.points > 0" 
+              [class.negative]="entry.points < 0">
+            {{entry.points}}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

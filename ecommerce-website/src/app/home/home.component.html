@@ -1,0 +1,12 @@
+<div class="home">
+  <app-promotion-banner></app-promotion-banner>
+  
+  <h1>{{ 'HOME.TITLE' | translate }}</h1>
+  <p>{{ 'HOME.SUBTITLE' | translate }}</p>
+  
+  <div class="language-selector">
+    <button (click)="switchLanguage('en')">English</button>
+    <button (click)="switchLanguage('es')">Español</button>
+    <button (click)="switchLanguage('fr')">Français</button>
+  </div>
+</div>

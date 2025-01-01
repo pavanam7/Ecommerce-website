@@ -1,0 +1,15 @@
+[33mcommit 1a52cd90da3d971ff78841b9326d1b685d7ecb0c[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m
+Author: pavanam7 <thomaspavanam@gmail.com>
+Date:   Tue Dec 31 21:59:10 2024 -0800
+
+    Replace src/app with new directory structure
+
+ src/app/faq/faq.component.spec.ts                  | 202 [31m------------[m
+ .../cart-payment.integration.spec.ts               | 290 [31m-----------------[m
+ .../order-processing.integration.spec.ts           | 314 [31m------------------[m
+ .../product-search.integration.spec.ts             | 351 [31m---------------------[m
+ src/app/services/currency.service.spec.ts          | 167 [31m----------[m
+ src/app/services/newsletter.service.spec.ts        | 201 [31m------------[m
+ src/app/services/product.service.ts                |   6 [31m-[m
+ src/app/test-setup.ts                              | 198 [31m------------[m
+ 8 files changed, 1729 deletions(-)

@@ -1,0 +1,35 @@
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css');
+
+.social-sharing-buttons {
+  display: flex;
+  gap: 1rem;
+  margin: 1rem 0;
+
+  button {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: opacity 0.2s;
+
+    &:hover {
+      opacity: 0.9;
+    }
+
+    &.facebook {
+      background-color: #3b5998;
+    }
+
+    &.twitter {
+      background-color: #1da1f2;
+    }
+
+    &.linkedin {
+      background-color: #0077b5;
+    }
+  }
+}

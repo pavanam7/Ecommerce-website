@@ -1,0 +1,54 @@
+.product-comparison {
+  padding: 20px;
+
+  h2 {
+    margin-bottom: 20px;
+  }
+
+  .product-list {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 30px;
+
+    .product-card {
+      border: 1px solid #ddd;
+      padding: 15px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+
+      &.selected {
+        border-color: #007bff;
+        background-color: #f0f8ff;
+      }
+
+      h3 {
+        margin: 0 0 10px 0;
+      }
+
+      p {
+        margin: 0;
+        font-weight: bold;
+      }
+    }
+  }
+
+  .comparison-table {
+    overflow-x: auto;
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+
+      th, td {
+        padding: 10px;
+        border: 1px solid #ddd;
+        text-align: left;
+      }
+
+      th {
+        background-color: #f5f5f5;
+      }
+    }
+  }
+}

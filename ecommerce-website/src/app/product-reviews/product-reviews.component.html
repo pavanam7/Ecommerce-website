@@ -1,0 +1,13 @@
+<div *ngIf="reviews">
+  <div *ngFor="let review of reviews">
+    <div class="review">
+      <i [ngClass]="{'fa-star': true, 'filled': review.rating >= 1}"></i>
+      <p>{{ review.text }}</p>
+      <p>Posted on: {{ review.date | date }}</p>
+    </div>
+  </div>
+</div>
+
+<form [formGroup]="reviewForm">
+  <!-- Form content will go here -->
+</form>

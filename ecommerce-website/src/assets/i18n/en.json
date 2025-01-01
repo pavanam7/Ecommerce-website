@@ -1,0 +1,22 @@
+{
+  "HOME": {
+    "TITLE": "Welcome to Our E-commerce Website",
+    "SUBTITLE": "Explore our products and enjoy shopping!"
+  },
+  "PRODUCT": {
+    "LIST_TITLE": "Our Products",
+    "DETAILS_TITLE": "Product Details",
+    "ADD_TO_CART": "Add to Cart",
+    "ADD_TO_WISHLIST": "Add to Wishlist"
+  },
+  "CART": {
+    "TITLE": "Your Shopping Cart",
+    "EMPTY": "Your cart is empty",
+    "CHECKOUT": "Proceed to Checkout"
+  },
+  "PROFILE": {
+    "TITLE": "Your Profile",
+    "EDIT": "Edit Profile",
+    "SAVE": "Save Changes"
+  }
+}

@@ -1,0 +1,8 @@
+[33mcommit ffdd221d16476bce737e452323bcba36866a9740[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m
+Author: pavanam7 <thomaspavanam@gmail.com>
+Date:   Tue Dec 31 22:14:37 2024 -0800
+
+    Add src directory and its contents
+
+ h -f | 15 [32m+++++++++++++++[m
+ 1 file changed, 15 insertions(+)

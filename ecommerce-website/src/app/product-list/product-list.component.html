@@ -1,0 +1,196 @@
+<div class="product-list-container">
+  <!-- Filters Section -->
+  <aside class="filters-section">
+    <form [formGroup]="filterForm" class="filter-form">
+      <div class="filter-group">
+        <h3>Search</h3>
+        <input
+          type="text"
+          formControlName="searchQuery"
+          placeholder="Search products..."
+          class="search-input"
+        />
+      </div>
+
+      <div class="filter-group">
+        <h3>Categories</h3>
+        <div *ngIf="!isFiltersLoading; else categorySkeletons">
+          <div *ngFor="let category of availableFilters.categories" class="checkbox-group">
+            <input
+              type="checkbox"
+              [id]="'category-' + category"
+              [value]="category"
+              formControlName="category"
+            />
+            <label [for]="'category-' + category">{{ category }}</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="filter-group">
+        <h3>Price Range</h3>
+        <div class="price-range">
+          <input
+            type="number"
+            formControlName="minPrice"
+            placeholder="Min"
+            class="price-input"
+          />
+          <span>to</span>
+          <input
+            type="number"
+            formControlName="maxPrice"
+            placeholder="Max"
+            class="price-input"
+          />
+        </div>
+      </div>
+
+      <div class="filter-group">
+        <h3>Rating</h3>
+        <select formControlName="minRating" class="rating-select">
+          <option value="0">All Ratings</option>
+          <option value="4">4+ Stars</option>
+          <option value="3">3+ Stars</option>
+          <option value="2">2+ Stars</option>
+          <option value="1">1+ Stars</option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label class="checkbox-group">
+          <input type="checkbox" formControlName="inStock" />
+          <span>In Stock Only</span>
+        </label>
+      </div>
+    </form>
+  </aside>
+
+  <!-- Products Grid -->
+  <main class="products-section">
+    <!-- Sort and View Options -->
+    <div class="products-header">
+      <div class="sort-options">
+        <select formControlName="sort" class="sort-select">
+          <option *ngFor="let option of sortOptions" [value]="option.field + '-' + option.direction">
+            {{ option.label }}
+          </option>
+        </select>
+      </div>
+
+      <div class="view-options">
+        <button
+          class="view-button"
+          [class.active]="viewMode === 'grid'"
+          (click)="viewMode = 'grid'"
+        >
+          <i class="grid-icon"></i>
+        </button>
+        <button
+          class="view-button"
+          [class.active]="viewMode === 'list'"
+          (click)="viewMode = 'list'"
+        >
+          <i class="list-icon"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Loading State -->
+    <div *ngIf="isLoading" class="products-grid">
+      <app-product-card-skeleton *ngFor="let i of [1,2,3,4,8,9,10,11,12]"></app-product-card-skeleton>
+    </div>
+
+    <!-- Error State -->
+    <div *ngIf="errorMessage" class="error-message">
+      {{ errorMessage }}
+      <button (click)="loadProducts()" class="retry-button">Retry</button>
+    </div>
+
+    <!-- Products Grid -->
+    <div *ngIf="!isLoading && !errorMessage" class="products-grid" [class.list-view]="viewMode === 'list'">
+      <div *ngFor="let product of products" class="product-card">
+        <img [src]="product.imageUrl" [alt]="product.name" class="product-image" />
+        <div class="product-info">
+          <h3>{{ product.name }}</h3>
+          <p class="description">{{ product.description }}</p>
+          <div class="price-rating">
+            <span class="price">{{ product.price | currency }}</span>
+            <div class="rating">
+              <span class="stars" [style.width.%]="(product.rating || 0) * 20"></span>
+              <span class="count">({{ product.reviewCount || 0 }})</span>
+            </div>
+          </div>
+          <div class="product-actions">
+            <button
+              (click)="addToCart(product.id)"
+              class="action-button add-to-cart"
+              [disabled]="!product.availability"
+            >
+              {{ product.availability ? 'Add to Cart' : 'Out of Stock' }}
+            </button>
+            <button
+              (click)="addToWishlist(product.id)"
+              class="action-button wishlist"
+              [class.in-wishlist]="wishlistService.isInWishlist(product.id)"
+            >
+              <i class="heart-icon"></i>
+            </button>
+            <button
+              (click)="toggleCompare(product.id)"
+              class="action-button compare"
+              [class.selected]="selectedForComparison.has(product.id)"
+              [disabled]="!selectedForComparison.has(product.id) && selectedForComparison.size >= maxCompareItems"
+            >
+              <i class="compare-icon"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Empty State -->
+    <div *ngIf="!isLoading && !errorMessage && products.length === 0" class="empty-state">
+      <i class="empty-icon"></i>
+      <h3>No Products Found</h3>
+      <p>Try adjusting your filters or search terms</p>
+    </div>
+
+    <!-- Pagination -->
+    <div *ngIf="!isLoading && !errorMessage && products.length > 0" class="pagination">
+      <button
+        (click)="previousPage()"
+        [disabled]="pagination.page === 1"
+        class="page-button"
+      >
+        Previous
+      </button>
+      
+      <div class="page-numbers">
+        <button
+          *ngFor="let page of getPageNumbers()"
+          (click)="goToPage(page)"
+          class="page-number"
+          [class.active]="page === pagination.page"
+        >
+          {{ page }}
+        </button>
+      </div>
+
+      <button
+        (click)="nextPage()"
+        [disabled]="pagination.page === totalPages"
+        class="page-button"
+      >
+        Next
+      </button>
+    </div>
+  </main>
+</div>
+
+<!-- Category Skeletons Template -->
+<ng-template #categorySkeletons>
+  <div class="category-skeletons">
+    <app-skeleton-loader *ngFor="let i of [1,2,3,4,5]" height="24px" style="margin-bottom: 8px;"></app-skeleton-loader>
+  </div>
+</ng-template>

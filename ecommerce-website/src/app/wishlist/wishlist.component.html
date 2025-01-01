@@ -1,0 +1,24 @@
+<div class="wishlist-container">
+  <h2>Your Wishlist</h2>
+  
+  <div *ngIf="wishlistItems$ | async as wishlistItems">
+    <div *ngIf="wishlistItems.length > 0; else emptyWishlist">
+      <div class="wishlist-item" *ngFor="let item of wishlistItems">
+        <div class="item-details">
+          <h3>{{ item.name }}</h3>
+          <p>{{ item.description }}</p>
+          <p class="price">{{ item.price | currency }}</p>
+        </div>
+        <button 
+          class="remove-btn"
+          (click)="removeFromWishlist(item.id)">
+          Remove
+        </button>
+      </div>
+    </div>
+
+    <ng-template #emptyWishlist>
+      <p class="empty-message">Your wishlist is empty.</p>
+    </ng-template>
+  </div>
+</div>

@@ -1,0 +1,22 @@
+{
+  "HOME": {
+    "TITLE": "Bienvenue sur Notre Site E-commerce",
+    "SUBTITLE": "Découvrez nos produits et profitez de vos achats!"
+  },
+  "PRODUCT": {
+    "LIST_TITLE": "Nos Produits",
+    "DETAILS_TITLE": "Détails du Produit",
+    "ADD_TO_CART": "Ajouter au Panier",
+    "ADD_TO_WISHLIST": "Ajouter à la Liste de Souhaits"
+  },
+  "CART": {
+    "TITLE": "Votre Panier",
+    "EMPTY": "Votre panier est vide",
+    "CHECKOUT": "Passer à la Caisse"
+  },
+  "PROFILE": {
+    "TITLE": "Votre Profil",
+    "EDIT": "Modifier le Profil",
+    "SAVE": "Enregistrer les Modifications"
+  }
+}

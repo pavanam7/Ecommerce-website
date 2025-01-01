@@ -1,0 +1,139 @@
+<div class="product-details-container">
+  <div class="product-gallery">
+    <div class="main-image">
+      <img [src]="product?.mainImage" [alt]="product?.name">
+    </div>
+    <div class="thumbnails">
+      <img *ngFor="let image of product?.images" 
+           [src]="image" 
+           [alt]="product?.name"
+           (click)="selectImage(image)">
+    </div>
+  </div>
+
+  <div class="product-info">
+    <h1>{{product?.name}}</h1>
+    
+    <div class="rating-section">
+      <div class="stars">
+        <i *ngFor="let star of [1,2,3,4,5]" 
+           class="fas fa-star" 
+           [ngClass]="{'filled': star <= (product?.rating || 0)}"></i>
+      </div>
+      <span class="review-count">({{product?.reviewCount}} reviews)</span>
+      <a href="#reviews" class="write-review">Write a review</a>
+    </div>
+
+    <div class="price-section">
+      <p *ngIf="product && product.discount && product.price !== undefined" class="discounted-price">
+        <span class="original-price">${{product.price}}</span>
+        ${{product.price * (1 - (product.discount/100)) | number:'1.2-2'}}
+      </p>
+      <p *ngIf="product && !product.discount && product.price !== undefined" class="price">${{product.price}}</p>
+      <p *ngIf="product && product.discount" class="discount">Save {{product.discount}}%</p>
+      <p class="stock-status">{{stockStatus}}</p>
+    </div>
+
+    <div class="variant-selection" *ngIf="availableSizes.length > 0 || availableColors.length > 0">
+      <div class="size-selector" *ngIf="availableSizes.length > 0">
+        <label>Size:</label>
+        <div class="size-options">
+          <button *ngFor="let size of availableSizes" 
+                  [class.selected]="size === selectedSize"
+                  (click)="selectSize(size)">
+            {{size}}
+          </button>
+        </div>
+      </div>
+      
+      <div class="color-selector" *ngIf="availableColors.length > 0">
+        <label>Color:</label>
+        <div class="color-options">
+          <button *ngFor="let color of availableColors" 
+                  [class.selected]="color === selectedColor"
+                  (click)="selectColor(color)"
+                  [style.backgroundColor]="color">
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="product-actions">
+      <button class="add-to-cart" 
+              (click)="addToCart()"
+              [disabled]="!selectedVariant && !product?.availability">
+        <i class="fas fa-shopping-cart"></i> 
+        {{selectedVariant ? 'Add to Cart' : 'Select Options'}}
+      </button>
+      <button class="add-to-wishlist" (click)="addToWishlist()">
+        <i class="fas fa-heart"></i> Add to Wishlist
+      </button>
+    </div>
+
+    <div class="product-video" *ngIf="product?.videoUrl">
+      <video controls *ngIf="product?.videoUrl">
+        <source [src]="product?.videoUrl" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    </div>
+
+    <div class="product-description">
+      <h3>Description</h3>
+      <p>{{product?.description}}</p>
+    </div>
+
+    <div class="specifications">
+      <h3 (click)="toggleSpecs()" class="toggle-header">
+        Specifications <i class="fas" [ngClass]="{'fa-chevron-down': !showSpecs, 'fa-chevron-up': showSpecs}"></i>
+      </h3>
+      <div *ngIf="showSpecs">
+        <table>
+          <tr *ngFor="let spec of product?.specifications">
+            <th>{{spec.key}}</th>
+            <td>{{spec.value}}</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="reviews-section" id="reviews">
+    <h3 (click)="toggleReviews()" class="toggle-header">
+      Customer Reviews <i class="fas" [ngClass]="{'fa-chevron-down': !showReviews, 'fa-chevron-up': showReviews}"></i>
+    </h3>
+    <div class="reviews-list">
+      <div *ngFor="let review of product?.reviews" class="review-item">
+        <div class="review-header">
+          <div class="review-rating">
+            <i *ngFor="let star of [1,2,3,4,5]" 
+               class="fas fa-star" 
+               [ngClass]="{'filled': star <= review.rating}"></i>
+          </div>
+          <span class="review-author">{{review.author}}</span>
+          <span class="review-date">{{review.date | date}}</span>
+        </div>
+        <p class="review-text">{{review.text}}</p>
+      </div>
+    </div>
+    <app-product-review-form 
+      *ngIf="showReviewForm"
+      (reviewSubmitted)="onReviewSubmitted()">
+    </app-product-review-form>
+    <button class="write-review-btn" (click)="openReviewForm()">
+      Write a Review
+    </button>
+  </div>
+
+  <div class="related-products">
+    <h3>Related Products</h3>
+    <div class="related-products-grid">
+      <div *ngFor="let relatedProduct of relatedProducts" class="related-product">
+        <img [src]="relatedProduct.image" 
+             [alt]="relatedProduct.name"
+             [routerLink]="['/products', relatedProduct.id]">
+        <h4 [routerLink]="['/products', relatedProduct.id]">{{relatedProduct.name}}</h4>
+        <p class="price">${{relatedProduct.price}}</p>
+      </div>
+    </div>
+  </div>
+</div>

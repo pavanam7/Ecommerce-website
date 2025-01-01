@@ -1,0 +1,74 @@
+<div class="chat-widget" [class.minimized]="isMinimized">
+  <!-- Chat Header -->
+  <div class="chat-header" (click)="toggleChat()">
+    <div class="header-content">
+      <i class="chat-icon" [class.online]="chatSession?.status === 'connected'"></i>
+      <span class="header-title">Live Chat Support</span>
+      <span *ngIf="chatSession?.agentName" class="agent-name">with {{ chatSession?.agentName }}</span>
+    </div>
+    <button class="minimize-button">
+      <i [class]="isMinimized ? 'expand-icon' : 'minimize-icon'"></i>
+    </button>
+  </div>
+
+  <!-- Chat Body -->
+  <div class="chat-body" *ngIf="!isMinimized">
+    <!-- Welcome Message -->
+    <div class="welcome-message" *ngIf="!chatSession">
+      <h3>Welcome to our Live Chat!</h3>
+      <p>Please start a chat with our support team. We typically reply within a few minutes.</p>
+    </div>
+
+    <!-- Messages Container -->
+    <div class="chat-messages" *ngIf="chatSession">
+      <div *ngFor="let message of messages" [class]="getMessageClass(message)" class="message">
+        <div class="message-content">
+          <div class="message-text">{{ message.text }}</div>
+          <div class="message-meta">
+            <span class="timestamp">{{ formatTimestamp(message.timestamp) }}</span>
+            <span *ngIf="message.status" class="status">{{ message.status }}</span>
+          </div>
+        </div>
+        <div *ngIf="message.sender === 'agent' && chatSession?.agentAvatar" class="avatar">
+          <img [src]="chatSession?.agentAvatar" [alt]="chatSession?.agentName || 'Agent'">
+        </div>
+      </div>
+
+      <!-- Typing Indicator -->
+      <div class="typing-indicator" *ngIf="isTyping">
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+      </div>
+    </div>
+
+    <!-- Chat Input -->
+    <div class="chat-input" *ngIf="chatSession?.status === 'connected'">
+      <textarea
+        [(ngModel)]="currentMessage"
+        (input)="onMessageInput($event)"
+        (keydown.enter)="$event.preventDefault(); sendMessage()"
+        placeholder="Type your message..."
+        [maxlength]="500"
+      ></textarea>
+      <button
+        class="send-button"
+        [disabled]="!currentMessage.trim()"
+        (click)="sendMessage()"
+      >
+        <i class="send-icon"></i>
+      </button>
+    </div>
+
+    <!-- Chat Status -->
+    <div class="chat-status" *ngIf="chatSession?.status === 'waiting'">
+      <div class="spinner"></div>
+      <p>Connecting you with an agent...</p>
+    </div>
+
+    <!-- Chat Actions -->
+    <div class="chat-actions" *ngIf="chatSession">
+      <button class="end-chat" (click)="endChat()">End Chat</button>
+    </div>
+  </div>
+</div> 
